@@ -1,4 +1,5 @@
 using Data.Provider.Repositiories;
+using DataAccess;
 using DataAccess.Base;
 using DataAccess.Context;
 using DataAccess.Repositories;
@@ -52,11 +53,12 @@ namespace WebAPI
                 Configuration.GetConnectionString("DefaultConnection")
                 ));
 
-            var baseRepoType = typeof(BaseRepository<BaseContext, BaseModel>);
-            //var repositories = new List<baseRepoType>();
             services.AddTransient<ITestService, TestService>();
             services.AddTransient<ITestRepository, TestRepository>();
             services.AddTransient<ITest2Repository, Test2Repository>();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
