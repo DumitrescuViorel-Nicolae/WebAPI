@@ -21,7 +21,7 @@ namespace Services.Services
 
         public TestService(IHttpProxy httpClient, IConfiguration configuration, ITestRepository testRepository, ITest2Repository test2Repository)
         {
-            _baseUrl = configuration["ApiServerIP:IP"];
+            _baseUrl = configuration["ApiServerIP:baseUrl"];
             _httpClient = httpClient;
             _testRepository = testRepository;
             _test2Repository = test2Repository;

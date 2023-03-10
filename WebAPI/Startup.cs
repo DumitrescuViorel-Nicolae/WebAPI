@@ -73,6 +73,7 @@ namespace WebAPI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi");
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseHttpsRedirection();
