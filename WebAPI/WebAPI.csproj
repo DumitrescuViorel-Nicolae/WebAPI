@@ -21,9 +21,5 @@
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\SwaggerDark\DarkTheme.css" />
-  </ItemGroup>
-
 
 </Project>

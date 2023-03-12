@@ -35,7 +35,7 @@ namespace WebAPI
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieAPI", Version = "v1" });
             });
 
             services.AddHttpClient<HttpProxyClient>();
@@ -64,7 +64,6 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseStaticFiles();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,7 +73,6 @@ namespace WebAPI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi");
-                c.InjectStylesheet("/SwaggerDark/DarkTheme.css");
                 c.RoutePrefix = string.Empty;
             });
 
