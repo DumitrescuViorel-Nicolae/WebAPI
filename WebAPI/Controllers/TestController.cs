@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Models;
-using Services.Interfaces;
+using Models.APIServerModels;
+using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.Services.Interfaces;
 
 namespace WebAPI.Controllers
 {

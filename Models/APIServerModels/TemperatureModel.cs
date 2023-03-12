@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Models
+namespace Models.APIServerModels
 {
     public class TemperatureModel
     {

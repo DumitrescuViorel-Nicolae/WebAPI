@@ -1,6 +1,6 @@
 ﻿using DataAccess.Base;
-using DataAccess.Context;
-using Models;
+using DataAccess.CustomContexts;
+using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

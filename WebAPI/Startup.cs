@@ -1,9 +1,8 @@
-using Data.Provider.Repositiories;
 using DataAccess;
-using DataAccess.Base;
-using DataAccess.Context;
+using DataAccess.CustomContexts;
 using DataAccess.Repositories;
 using DataAccess.Repositories.Interfaces;
+using Mailing.EmailServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Models;
-using Services.Interfaces;
-using Services.Services;
+using Models.MailingModels;
 using WebAPI.HttpProxy;
+using WebAPI.Services;
+using WebAPI.Services.Interfaces;
 
 namespace WebAPI
 {
@@ -33,11 +32,18 @@ namespace WebAPI
             services.AddControllers();
 
             services.AddControllers();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieAPI", Version = "v1" });
             });
 
+            #region HTTPProxy
+            // Initialize HTTPProxy
             services.AddHttpClient<HttpProxyClient>();
             services.AddTransient<IHttpProxy, WebAPI.HttpProxy.HttpProxy>(serviceProvider =>
             {
@@ -46,18 +52,23 @@ namespace WebAPI
 
                 return httpProxy;
             });
-
+            #endregion
+            #region Database
             // Initialize the context
             services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")
                 ));
 
-            services.AddTransient<ITestService, TestService>();
             services.AddTransient<ITestRepository, TestRepository>();
             services.AddTransient<ITest2Repository, Test2Repository>();
-
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            #endregion
+            #region Application services
+            services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
+            services.AddTransient<ITestService, TestService>();
+            services.AddTransient<IEmailService, EmailService>();
+            #endregion
 
         }
 

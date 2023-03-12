@@ -1,7 +1,7 @@
-﻿using Data.Provider.Repositiories;
-using DataAccess.Context;
+﻿using DataAccess.Base;
+using DataAccess.CustomContexts;
 using DataAccess.Repositories.Interfaces;
-using Models;
+using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Text;

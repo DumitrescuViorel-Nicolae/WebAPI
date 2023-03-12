@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models
+namespace Models.DatabaseModels
 {
     [Table("test2")]
     public partial class Test2Model

@@ -1,7 +1,7 @@
 ﻿using DataAccess.Repositories.Interfaces;
 using Microsoft.Extensions.Configuration;
-using Models;
-using Services.Interfaces;
+using Models.APIServerModels;
+using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WebAPI.HttpProxy;
+using WebAPI.Services.Interfaces;
 
-namespace Services.Services
+namespace WebAPI.Services
 {
     public class TestService : ITestService
     {
@@ -38,10 +39,11 @@ namespace Services.Services
         {
             _testRepository.Create(model);
 
-            var testsInDb = _testRepository.Read().ToList<TestModel>();
+            var testsInDb = _testRepository.Read().ToList();
 
 
-            return new TestsFromDbModel {
+            return new TestsFromDbModel
+            {
                 CreatedModel = model,
                 ModelsInDb = testsInDb
             };

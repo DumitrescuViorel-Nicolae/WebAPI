@@ -1,5 +1,4 @@
-﻿using DataAccess.Base;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Data.Provider.Repositiories
+namespace DataAccess.Base
 {
     public class BaseRepository<TContext, TModel> : IBaseRepository<TContext, TModel>
         where TContext : BaseContext

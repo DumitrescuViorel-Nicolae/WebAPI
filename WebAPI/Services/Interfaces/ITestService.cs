@@ -1,10 +1,11 @@
-﻿using Models;
+﻿using Models.APIServerModels;
+using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Interfaces
+namespace WebAPI.Services.Interfaces
 {
     public interface ITestService
     {
