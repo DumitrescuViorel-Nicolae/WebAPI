@@ -55,11 +55,29 @@ namespace Mailing.EmailServices
             return body;
         }
 
+        // Dynamic Templates functionality
+        // kinda indian a bit
+        private string ReplacePlaceholders(string body, List<KeyValuePair<string, string>> placeholders)
+        {
+            if(!string.IsNullOrEmpty(body) && placeholders != null)
+            {
+                foreach(var placeholdersItem in placeholders)
+                {
+                    if (body.Contains(placeholdersItem.Key))
+                    {
+                       body = body.Replace(placeholdersItem.Key, placeholdersItem.Value);
+                    }
+                }
+            }
+            return body;
+        }
+
         public async Task SendTestEmail(UserEmaiOptions userEmaiOptions)
         {
             userEmaiOptions.Subject = "Test Email";
             userEmaiOptions.Body = GetEmailBody("EmailTemplate");
             userEmaiOptions.ToEmails = new List<string>() { "ceva@gmail.com" };
+            userEmaiOptions.Placeholders.Add(new KeyValuePair<string, string>("{username}", "nick"));
 
             await SendEmails(userEmaiOptions);
         }

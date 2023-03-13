@@ -39,7 +39,7 @@ namespace WebAPI
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieAPI", Version = "v1" });
+                options.SwaggerDoc("dev", new OpenApiInfo { Title = "WebAPI"});
             });
 
             #region HTTPProxy
@@ -66,8 +66,8 @@ namespace WebAPI
             #endregion
             #region Application services
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
-            services.AddTransient<ITestService, TestService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<ISensorService, SensorService>();
             #endregion
 
         }
@@ -83,7 +83,7 @@ namespace WebAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi");
+                c.SwaggerEndpoint("/swagger/dev/swagger.json", "WebApi");
                 c.RoutePrefix = string.Empty;
             });
 

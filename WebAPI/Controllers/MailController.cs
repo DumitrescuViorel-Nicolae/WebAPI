@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult SendMail(UserEmaiOptions options)
+        public IActionResult Send(UserEmaiOptions options)
         {
             return Ok(_mailService.SendTestEmail(options));
         }
