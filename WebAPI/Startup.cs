@@ -68,6 +68,7 @@ namespace WebAPI
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ISensorService, SensorService>();
+            services.AddTransient<INgrokService, NgrokService>();
             #endregion
 
         }

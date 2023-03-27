@@ -59,11 +59,11 @@ namespace Mailing.EmailServices
         // kinda indian a bit
         private string ReplacePlaceholders(string body, List<KeyValuePair<string, string>> placeholders)
         {
-            if(!string.IsNullOrEmpty(body) && placeholders != null)
+            if(!string.IsNullOrEmpty(body) && placeholders!= null)
             {
                 foreach(var placeholdersItem in placeholders)
                 {
-                    if (body.Contains(placeholdersItem.Key))
+                    if (body.Contains(placeholdersItem.Key) && placeholdersItem.Key != null)
                     {
                        body = body.Replace(placeholdersItem.Key, placeholdersItem.Value);
                     }

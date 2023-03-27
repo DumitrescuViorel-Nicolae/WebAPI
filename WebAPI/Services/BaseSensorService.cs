@@ -13,14 +13,16 @@ using WebAPI.Services.Interfaces;
 
 namespace WebAPI.Services
 {
-    public class BaseService
+    public class BaseSensorService
     {
         private readonly IHttpProxy _httpClient;
+        private readonly INgrokService _ngrokService;
         private string _baseUrl;
 
-        public BaseService(IHttpProxy httpClient, IConfiguration configuration)
+        public BaseSensorService(IHttpProxy httpClient, IConfiguration configuration, INgrokService ngrokservice)
         {
-            _baseUrl = configuration["ApiServerIP:baseUrl"];
+            _ngrokService= ngrokservice;
+            _baseUrl = _ngrokService.GetActiveTunnelURL().Result.tunnels.FirstOrDefault().public_url.Replace("tcp://", "http://") + "/";
             _httpClient = httpClient;
           
         }
