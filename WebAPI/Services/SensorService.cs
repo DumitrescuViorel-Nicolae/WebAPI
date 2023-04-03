@@ -14,14 +14,6 @@ namespace WebAPI.Services
         {
         }
 
-        public async Task<SensorModel> GetTemperature(string sensorName)
-        {
-            var result = await GetByEndpoint<SensorModel>(sensorName);
-            var value = result.Value.Remove(result.Value.IndexOf('.') + 3);
-            result.Value = value;
-            return result;
-        }
-
         public async Task<List<SensorModel>> ReadEnvironment()
         {
             var environmentReading = new List<SensorModel>();

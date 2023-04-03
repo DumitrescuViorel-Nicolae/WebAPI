@@ -18,11 +18,6 @@ namespace WebAPI.Controllers
             _sensorService = sensor;
             _ngrokService = ngrokService;
         }
-        [HttpGet("[action]")]
-        public async Task<SensorModel> GetTemperature()
-        {
-            return await _sensorService.GetTemperature("temperature");
-        }
 
         [HttpGet("[action]")]   
         public async Task<List<SensorModel>> GetEnvironmentReadings()
@@ -36,7 +31,5 @@ namespace WebAPI.Controllers
             return await _ngrokService.GetActiveTunnelURL();
         }
 
-        /* [HttpPost("[action]")]
-         [FromBody]*/
     }
 }
