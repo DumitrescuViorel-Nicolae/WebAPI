@@ -32,7 +32,7 @@ namespace WebAPI
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.WithOrigins("http://localhost:3000")
-                       .AllowAnyMethod()
+                       .AllowAnyMethod()    
                        .AllowAnyHeader();
             }));
 
