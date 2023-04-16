@@ -7,5 +7,6 @@ namespace WebAPI.Services.Interfaces
     public interface ISensorService
     {
         Task<List<SensorModel>> ReadEnvironment();
+        List<SensorModel> GenerateRandomValues();
     }
 }

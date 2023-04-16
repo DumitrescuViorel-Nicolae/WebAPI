@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DataAccess.Repositories.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Models.APIServerModels;
+using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,11 +12,15 @@ namespace WebAPI.Services
 {
     public class SensorService : BaseSensorService, ISensorService
     {
-        public SensorService(IHttpProxy httpClient, IConfiguration configuration, INgrokService ngrokservice) : base(httpClient, configuration, ngrokservice)
+
+        private readonly ISavedReadingsRepository _savedReadingsRepository;
+
+        public SensorService(IHttpProxy httpClient, IConfiguration configuration, INgrokService ngrokservice, ISavedReadingsRepository savedReadingsRepository) : base(httpClient, configuration, ngrokservice)
         {
+            _savedReadingsRepository= savedReadingsRepository;
         }
 
-        private List<SensorModel> GenerateRandomValues()
+        public List<SensorModel> GenerateRandomValues()
         {
             var listOfMeasures = new List<KeyValuePair<string, string>>()
             {
@@ -36,6 +42,10 @@ namespace WebAPI.Services
                     Value = new Random().Next(20, 30).ToString(),
                 });
             }
+            foreach (var reading in listOfValues)
+            {
+                _savedReadingsRepository.Create(new SensorReading { Value = reading.Value, Unit = reading.Unit, Type = reading.Type, Time = DateTime.Now.ToString("HH:mm") });
+            }
 
             return listOfValues;
 
@@ -44,6 +54,7 @@ namespace WebAPI.Services
         public async Task<List<SensorModel>> ReadEnvironment()
         {
             var environmentReading = new List<SensorModel>();
+
             try
             {
                 var principalReadings = await GetByEndpoint<List<SensorModel>>("envPrinc");
@@ -56,12 +67,16 @@ namespace WebAPI.Services
             }
             catch (Exception e)
             {
-
                 environmentReading = GenerateRandomValues();
             }
-           
 
+            foreach(var reading in environmentReading)
+            {
+                _savedReadingsRepository.Create(new SensorReading { Value = reading.Value, Unit = reading.Unit, Type = reading.Type, Time = DateTime.Now.ToString("HH:mm")});
+            }
+           
             return environmentReading;
         }
+
     }
 }

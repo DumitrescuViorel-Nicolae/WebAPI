@@ -2,6 +2,7 @@ using DataAccess;
 using DataAccess.CustomContexts;
 using DataAccess.Repositories;
 using DataAccess.Repositories.Interfaces;
+using Hangfire;
 using Mailing.EmailServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Models.MailingModels;
+using System;
+using WebAPI.Hangfire;
 using WebAPI.HttpProxy;
 using WebAPI.Services;
 using WebAPI.Services.Interfaces;
@@ -29,9 +32,18 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Middleware
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.WithOrigins("http://localhost:3000")
+                       .AllowAnyMethod()    
+                       .AllowAnyHeader();    
+                
+                builder.WithOrigins("http://192.168.3.112:90")
+                       .AllowAnyMethod()    
+                       .AllowAnyHeader();
+
+                builder.WithOrigins("http://localhost:90")
                        .AllowAnyMethod()    
                        .AllowAnyHeader();
             }));
@@ -49,6 +61,9 @@ namespace WebAPI
                 options.SwaggerDoc("dev", new OpenApiInfo { Title = "WebAPI"});
             });
 
+            services.AddHangfire(x=> x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHangfireServer();
+            #endregion
             #region HTTPProxy
             // Initialize HTTPProxy
             services.AddHttpClient<HttpProxyClient>();
@@ -66,22 +81,20 @@ namespace WebAPI
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")
                 ));
-
-            services.AddTransient<ITestRepository, TestRepository>();
-            services.AddTransient<ITest2Repository, Test2Repository>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ISavedReadingsRepository, SavedReadingsRepository>();
             #endregion
             #region Application services
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ISensorService, SensorService>();
             services.AddTransient<INgrokService, NgrokService>();
+            services.AddTransient<IHangfireActivator, HangfireActivator>();
             #endregion
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             app.UseCors("MyPolicy");
 
@@ -97,6 +110,12 @@ namespace WebAPI
                 c.SwaggerEndpoint("/swagger/dev/swagger.json", "WebApi");
                 c.RoutePrefix = string.Empty;
             });
+
+            app.UseHangfireDashboard("/mydashboard");
+            recurringJobManager.AddOrUpdate<HangfireActivator>(nameof(HangfireActivator),
+                job => serviceProvider.GetRequiredService<IHangfireActivator>()
+                    .Run(JobCancellationToken.Null)
+                , Cron.Minutely(), TimeZoneInfo.Utc);
 
             app.UseHttpsRedirection();
 

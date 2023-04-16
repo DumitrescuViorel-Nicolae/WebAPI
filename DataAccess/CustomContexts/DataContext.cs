@@ -1,9 +1,11 @@
 ﻿using DataAccess.Base;
 using Microsoft.EntityFrameworkCore;
+using Models.APIServerModels;
 using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WebAPI.Models;
 
 namespace DataAccess.CustomContexts
 {
@@ -11,7 +13,6 @@ namespace DataAccess.CustomContexts
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        public DbSet<TestModel> Test { get; set; }
-        public DbSet<Test2Model> Test2 { get; }
+        public virtual DbSet<SensorReading> EnvironenmentReadings { get; set; }
     }
 }
