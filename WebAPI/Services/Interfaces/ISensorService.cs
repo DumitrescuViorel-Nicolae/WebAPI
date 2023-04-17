@@ -1,4 +1,5 @@
 ﻿using Models.APIServerModels;
+using Models.DatabaseModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,6 @@ namespace WebAPI.Services.Interfaces
     {
         Task<List<SensorModel>> ReadEnvironment();
         List<SensorModel> GenerateRandomValues();
+        Task<List<SensorReading>> GetReadingsFromDb();
     }
 }

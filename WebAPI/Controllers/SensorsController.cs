@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.APIServerModels;
+using Models.DatabaseModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebAPI.Services.Interfaces;
@@ -12,11 +13,10 @@ namespace WebAPI.Controllers
     public class SensorsController : ControllerBase
     {
         private readonly ISensorService _sensorService;
-        private readonly INgrokService _ngrokService;
-        public SensorsController(ISensorService sensor, INgrokService ngrokService)
+      
+        public SensorsController(ISensorService sensor)
         {
             _sensorService = sensor;
-            _ngrokService = ngrokService;
         }
 
         [HttpGet("[action]")]   
@@ -26,10 +26,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<NgrokResponseModel.Root> GetActiveTunnels()
+        public async Task<List<SensorReading>> GetReadingsFromDb()
         {
-            return await _ngrokService.GetActiveTunnelURL();
+            return await _sensorService.GetReadingsFromDb();
         }
-
+ 
     }
 }

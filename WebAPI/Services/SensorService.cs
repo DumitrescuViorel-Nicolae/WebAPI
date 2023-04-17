@@ -4,6 +4,7 @@ using Models.APIServerModels;
 using Models.DatabaseModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebAPI.HttpProxy;
 using WebAPI.Services.Interfaces;
@@ -76,6 +77,12 @@ namespace WebAPI.Services
             }
            
             return environmentReading;
+        }
+
+       public async Task<List<SensorReading>> GetReadingsFromDb()
+        {
+            var result = await Task.Run(() => _savedReadingsRepository.Read());
+            return result.ToList();
         }
 
     }

@@ -111,12 +111,13 @@ namespace WebAPI
                 c.RoutePrefix = string.Empty;
             });
 
+            #region Hangfire
             app.UseHangfireDashboard("/mydashboard");
             recurringJobManager.AddOrUpdate<HangfireActivator>(nameof(HangfireActivator),
                 job => serviceProvider.GetRequiredService<IHangfireActivator>()
                     .Run(JobCancellationToken.Null)
                 , Cron.Minutely(), TimeZoneInfo.Utc);
-
+            #endregion 
             app.UseHttpsRedirection();
 
             app.UseRouting();
