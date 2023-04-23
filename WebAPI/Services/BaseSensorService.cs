@@ -35,9 +35,9 @@ namespace WebAPI.Services
                 _baseUrl = _ngrokService.GetActiveTunnelURL().Result.tunnels.FirstOrDefault().public_url.Replace("tcp://", "http://") + "/";
                 return _baseUrl;
             }
-            catch (ServerDownExpection e)
+            catch (ServerDownExpection)
             {
-                throw e;
+                throw;
             }
         }
 

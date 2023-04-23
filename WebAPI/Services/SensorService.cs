@@ -85,5 +85,11 @@ namespace WebAPI.Services
             return result.ToList();
         }
 
+        public void DeleteReadings()
+        {
+            _savedReadingsRepository.Delete();
+
+        }
+
     }
 }

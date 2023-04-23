@@ -13,16 +13,16 @@ namespace WebAPI.Controllers
     public class SensorsController : ControllerBase
     {
         private readonly ISensorService _sensorService;
-      
+
         public SensorsController(ISensorService sensor)
         {
             _sensorService = sensor;
         }
 
-        [HttpGet("[action]")]   
+        [HttpGet("[action]")]
         public async Task<List<SensorModel>> GetEnvironmentReadings()
         {
-           return await _sensorService.ReadEnvironment();
+            return await _sensorService.ReadEnvironment();
         }
 
         [HttpGet("[action]")]
@@ -30,6 +30,14 @@ namespace WebAPI.Controllers
         {
             return await _sensorService.GetReadingsFromDb();
         }
- 
+
+        [HttpDelete("[action]")]
+        public void DeleteReadings()
+        {
+
+            _sensorService.DeleteReadings();
+
+        }
+
     }
 }

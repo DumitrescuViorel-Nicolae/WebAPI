@@ -10,5 +10,6 @@ namespace WebAPI.Services.Interfaces
         Task<List<SensorModel>> ReadEnvironment();
         List<SensorModel> GenerateRandomValues();
         Task<List<SensorReading>> GetReadingsFromDb();
+        void DeleteReadings();
     }
 }
