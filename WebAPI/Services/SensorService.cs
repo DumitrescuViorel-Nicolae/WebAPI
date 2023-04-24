@@ -87,9 +87,13 @@ namespace WebAPI.Services
 
         public void DeleteReadings()
         {
-            _savedReadingsRepository.Delete();
+            var items = GetReadingsFromDb().Result;
+            foreach (var item in items)
+            {
+                _savedReadingsRepository.Delete(item);
+
+            }
 
         }
-
     }
 }
