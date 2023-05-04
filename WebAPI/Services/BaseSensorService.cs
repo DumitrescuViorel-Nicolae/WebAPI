@@ -34,22 +34,34 @@ namespace WebAPI.Services
             {
                 _baseUrl = _ngrokService.GetActiveTunnelURL().Result.tunnels.FirstOrDefault().public_url.Replace("tcp://", "http://") + "/";
                 return _baseUrl;
-            }
-            catch (ServerDownExpection)
+            } catch (ServerDownExpection)
             {
                 throw;
             }
+                
+           
         }
 
 
         public async Task<T> GetByEndpoint<T>(string endpoint)
         {
-            GetBaseUrl();
-            var url = _httpClient.UrlBuilder(_baseUrl, endpoint);
-            var result = await _httpClient.SendGetRequest<T>(url);
 
+            if (_baseUrl == null)
+            {
+                _baseUrl = GetBaseUrl();
+                var url = _httpClient.UrlBuilder(_baseUrl, endpoint);
+                var result = await _httpClient.SendGetRequest<T>(url);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                var url = _httpClient.UrlBuilder(_baseUrl, endpoint);
+                var result = await _httpClient.SendGetRequest<T>(url);
+
+                return result;
+            }
+
         }
     }
 }

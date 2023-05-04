@@ -34,9 +34,7 @@ namespace WebAPI.Controllers
         [HttpDelete("[action]")]
         public void DeleteReadings()
         {
-
             _sensorService.DeleteReadings();
-
         }
 
     }

@@ -116,7 +116,7 @@ namespace WebAPI
             recurringJobManager.AddOrUpdate<HangfireActivator>(nameof(HangfireActivator),
                 job => serviceProvider.GetRequiredService<IHangfireActivator>()
                     .Run(JobCancellationToken.Null)
-                , Cron.Minutely(), TimeZoneInfo.Utc);
+                ,Cron.Minutely(), TimeZoneInfo.Utc);
             #endregion 
             app.UseHttpsRedirection();
 
