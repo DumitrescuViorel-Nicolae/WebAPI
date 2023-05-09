@@ -1,12 +1,5 @@
-﻿using DataAccess.Repositories.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Models.APIServerModels;
-using Models.DatabaseModels;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Exceptions;
 using WebAPI.HttpProxy;
@@ -19,7 +12,6 @@ namespace WebAPI.Services
         private readonly IHttpProxy _httpClient;
         private readonly INgrokService _ngrokService;
         private string _baseUrl;
-        private bool isServerDown;
 
         public BaseSensorService(IHttpProxy httpClient, IConfiguration configuration, INgrokService ngrokservice)
         {
@@ -42,7 +34,6 @@ namespace WebAPI.Services
            
         }
 
-
         public async Task<T> GetByEndpoint<T>(string endpoint)
         {
 
@@ -62,6 +53,20 @@ namespace WebAPI.Services
                 return result;
             }
 
+        }
+
+        public void SendPostRequest (string endpoint)
+        {
+
+
+            _baseUrl ??= GetBaseUrl();
+
+            var url = _httpClient.UrlBuilder(_baseUrl, endpoint);
+
+
+             _httpClient.SendPostRequest(url);
+
+            
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace WebAPI.HttpProxy
 {
@@ -6,5 +7,6 @@ namespace WebAPI.HttpProxy
     {
         string UrlBuilder(string baseUrl, string endpoint);
         Task<TResponse> SendGetRequest<TResponse>(string url);
+        void SendPostRequest(string url);
     }
 }

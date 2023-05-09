@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http;
-using System.Text.Json.Serialization;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WebAPI.HttpProxy
@@ -22,13 +22,21 @@ namespace WebAPI.HttpProxy
 
             TResponse responseMessage = default;
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 responseMessage = JsonConvert.DeserializeObject<TResponse>(jsonString);
             }
 
             return responseMessage;
         }
-       
+
+
+        public async void SendPostRequest(string url)
+        {
+
+            var content = new StringContent("", Encoding.UTF8, "application/json");
+            await _httpClient.PostAsync(url, content);
+        }
+
     }
 }

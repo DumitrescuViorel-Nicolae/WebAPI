@@ -73,7 +73,8 @@ namespace WebAPI.Services
 
             foreach(var reading in environmentReading)
             {
-                _savedReadingsRepository.Create(new SensorReading { Value = reading.Value, Unit = reading.Unit, Type = reading.Type, Time = DateTime.Now.ToString("HH:mm")});
+                _savedReadingsRepository.Create(new SensorReading { Value = reading.Value, 
+                    Unit = reading.Unit, Type = reading.Type, Time = DateTime.Now.ToString("HH:mm")});
             }
            
             return environmentReading;
