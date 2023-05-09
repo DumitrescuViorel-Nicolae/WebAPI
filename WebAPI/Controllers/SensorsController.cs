@@ -12,12 +12,10 @@ namespace WebAPI.Controllers
     public class SensorsController : ControllerBase
     {
         private readonly ISensorService _sensorService;
-        private readonly IServoService _servoService;
 
-        public SensorsController(ISensorService sensor, IServoService servoService)
+        public SensorsController(ISensorService sensor)
         {
             _sensorService = sensor;
-            _servoService = servoService;
         }
 
         [HttpGet("[action]")]
@@ -37,12 +35,5 @@ namespace WebAPI.Controllers
         {
             _sensorService.DeleteReadings();
         }
-
-        [HttpPost("[action]")]
-        public void ControlServo(int position)
-        {
-           _servoService.ControlServo(position);
-        }
-
     }
 }
