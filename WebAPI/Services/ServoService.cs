@@ -14,8 +14,6 @@ namespace WebAPI.Services
         public void ControlServo(int position)
         {
             SendPostRequest($"servo?position={position}");
-
-            
         }
     }
 }

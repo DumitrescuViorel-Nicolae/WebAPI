@@ -82,6 +82,7 @@ namespace WebAPI
                 Configuration.GetConnectionString("DefaultConnection")
                 ));
             services.AddTransient<ISavedReadingsRepository, SavedReadingsRepository>();
+            services.AddTransient<IAirQualityIndexRepository, AirQualityIndexRepository>();
             #endregion
             #region Application services
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));

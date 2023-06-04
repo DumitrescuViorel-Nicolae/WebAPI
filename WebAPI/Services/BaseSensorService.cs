@@ -29,9 +29,7 @@ namespace WebAPI.Services
             } catch (ServerDownExpection)
             {
                 throw;
-            }
-                
-           
+            }   
         }
 
         public async Task<T> GetByEndpoint<T>(string endpoint)

@@ -18,7 +18,7 @@ namespace WebAPI.Services
 
         public SensorService(IHttpProxy httpClient, IConfiguration configuration, INgrokService ngrokservice, ISavedReadingsRepository savedReadingsRepository) : base(httpClient, configuration, ngrokservice)
         {
-            _savedReadingsRepository= savedReadingsRepository;
+            _savedReadingsRepository = savedReadingsRepository;
         }
 
         public List<SensorModel> GenerateRandomValues()
@@ -29,27 +29,39 @@ namespace WebAPI.Services
                new KeyValuePair<string, string>("pressure", "mbar"),
                new KeyValuePair<string, string>("humidity", "%"),
                new KeyValuePair<string, string>("gas", "kOhms"),
-               new KeyValuePair<string, string>("altitude", "m")
+               new KeyValuePair<string, string>("altitude", "m"),
+               new KeyValuePair<string, string>("iaq", "points")
             };
 
             var listOfValues = new List<SensorModel>();
 
             foreach (var measure in listOfMeasures)
             {
-                listOfValues.Add(new SensorModel
+                if (measure.Key == "iaq")
                 {
-                    Type = measure.Key,
-                    Unit = measure.Value,
-                    Value = new Random().Next(20, 30).ToString(),
-                });
+                    listOfValues.Add(new SensorModel
+                    {
+                        Type = measure.Key,
+                        Unit = measure.Value,
+                        Value = new Random().Next(40, 50).ToString(),
+                    });
+                }
+                else
+                {
+                    listOfValues.Add(new SensorModel
+                    {
+                        Type = measure.Key,
+                        Unit = measure.Value,
+                        Value = new Random().Next(20, 30).ToString(),
+                    });
+                }
+
             }
             foreach (var reading in listOfValues)
             {
                 _savedReadingsRepository.Create(new SensorReading { Value = reading.Value, Unit = reading.Unit, Type = reading.Type, Time = DateTime.Now.ToString("HH:mm") });
             }
-
             return listOfValues;
-
         }
 
         public async Task<List<SensorModel>> ReadEnvironment()
@@ -71,16 +83,21 @@ namespace WebAPI.Services
                 environmentReading = GenerateRandomValues();
             }
 
-            foreach(var reading in environmentReading)
+            foreach (var reading in environmentReading)
             {
-                _savedReadingsRepository.Create(new SensorReading { Value = reading.Value, 
-                    Unit = reading.Unit, Type = reading.Type, Time = DateTime.Now.ToString("HH:mm:ss")});
+                _savedReadingsRepository.Create(new SensorReading
+                {
+                    Value = reading.Value,
+                    Unit = reading.Unit,
+                    Type = reading.Type,
+                    Time = DateTime.Now.ToString("HH:mm:ss")
+                });
             }
-           
+
             return environmentReading;
         }
 
-       public async Task<List<SensorReading>> GetReadingsFromDb()
+        public async Task<List<SensorReading>> GetReadingsFromDb()
         {
             var result = await Task.Run(() => _savedReadingsRepository.Read());
             return result.ToList();

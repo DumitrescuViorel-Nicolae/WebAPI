@@ -14,5 +14,7 @@ namespace DataAccess.CustomContexts
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public virtual DbSet<SensorReading> EnvironenmentReadings { get; set; }
+
+        public virtual DbSet<AirQualityModel> AirQualityIndex { get;set; }
     }
 }
