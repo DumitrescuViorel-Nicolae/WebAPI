@@ -1,11 +1,6 @@
 ﻿using DataAccess.Base;
 using Microsoft.EntityFrameworkCore;
-using Models.APIServerModels;
 using Models.DatabaseModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using WebAPI.Models;
 
 namespace DataAccess.CustomContexts
 {
@@ -16,5 +11,7 @@ namespace DataAccess.CustomContexts
         public virtual DbSet<SensorReading> EnvironenmentReadings { get; set; }
 
         public virtual DbSet<AirQualityModel> AirQualityIndex { get;set; }
+
+        public virtual DbSet<ServoStateModel> ServoState { get; set; }
     }
 }

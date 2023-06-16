@@ -83,6 +83,7 @@ namespace WebAPI
                 ));
             services.AddTransient<ISavedReadingsRepository, SavedReadingsRepository>();
             services.AddTransient<IAirQualityIndexRepository, AirQualityIndexRepository>();
+            services.AddTransient<IServoStateRepository, ServoStateRepository>();
             #endregion
             #region Application services
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
@@ -90,6 +91,7 @@ namespace WebAPI
             services.AddTransient<ISensorService, SensorService>();
             services.AddTransient<IServoService, ServoService>();
             services.AddTransient<INgrokService, NgrokService>();
+            services.AddTransient<ICheckerService, CheckerService>();
             services.AddTransient<IHangfireActivator, HangfireActivator>();
             #endregion
 

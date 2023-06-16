@@ -30,6 +30,15 @@ namespace DataAccess.Base
             return tableItems;
         }
 
+        public virtual void Update(params TModel[] items)
+        {
+            foreach (TModel item in items)
+            {
+                _context.Entry(item).State = EntityState.Modified;
+            }
+            _context.SaveChanges();
+        }
+
         public virtual int Delete(params TModel[] items)
         {
             _context.Set<TModel>().RemoveRange(items);

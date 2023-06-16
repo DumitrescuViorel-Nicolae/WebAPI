@@ -10,6 +10,7 @@ namespace DataAccess.Base
     {
         void Create(params TModel[] items);
         IEnumerable<TModel> Read();
+        void Update(params TModel[] items);
         int Delete(params TModel[] items);
         void Delete(Expression<Func<TModel, bool>> filter);
     }

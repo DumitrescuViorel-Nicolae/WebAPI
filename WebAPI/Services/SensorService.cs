@@ -80,7 +80,7 @@ namespace WebAPI.Services
             }
             catch (Exception e)
             {
-                environmentReading = GenerateRandomValues();
+                throw new Exception(e.Message);
             }
 
             foreach (var reading in environmentReading)
