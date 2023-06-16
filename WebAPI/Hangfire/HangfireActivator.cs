@@ -24,10 +24,9 @@ namespace WebAPI.Hangfire
             await RunAtTimeOf(DateTime.Now);
         }
 
-        public async Task RunAtTimeOf(DateTime now)
+        public Task RunAtTimeOf(DateTime now)
         {
-            using IServiceScope scope = this._serviceProvider.CreateScope();
-            await Task.Run(() => { _sensorService.ReadEnvironment(); });
+           return _sensorService.ReadEnvironment();
         }
     }
 }

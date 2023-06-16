@@ -81,6 +81,7 @@ namespace WebAPI
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")
                 ));
+            services.AddTransient<DataContext>();
             services.AddTransient<ISavedReadingsRepository, SavedReadingsRepository>();
             services.AddTransient<IAirQualityIndexRepository, AirQualityIndexRepository>();
             services.AddTransient<IServoStateRepository, ServoStateRepository>();
@@ -122,6 +123,7 @@ namespace WebAPI
                     .Run(JobCancellationToken.Null)
                 ,Cron.Minutely(), TimeZoneInfo.Utc);
             #endregion 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

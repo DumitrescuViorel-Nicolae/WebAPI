@@ -80,11 +80,12 @@ namespace WebAPI.Services
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+              throw new Exception(e.Message);
             }
 
             foreach (var reading in environmentReading)
             {
+
                 _savedReadingsRepository.Create(new SensorReading
                 {
                     Value = reading.Value,
