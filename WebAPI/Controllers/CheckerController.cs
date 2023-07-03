@@ -16,17 +16,22 @@ namespace WebAPI.Controllers
             _checkerService = checkerService;
         }
 
-        [HttpPut("[action]")]
-        public async Task Checker(bool state)
+        [HttpGet("[action]")]
+        public async Task<bool> Checker()
         {
-           await _checkerService.HandleAutomaticServoTrigger(state);
+            return await _checkerService.IsOverheat();
+        }
+
+        [HttpPut("[action]")]
+        public async Task ChangeState(bool state)
+        {
+            await _checkerService.ChangeServoState(state);
         }
 
         [HttpPost("[action]")]
-
-        public async Task SendMail()
+        public async Task<string> Simulate()
         {
-            await _checkerService.SendEmailAsync();
+            return await _checkerService.Simulate();
         }
     }
 }

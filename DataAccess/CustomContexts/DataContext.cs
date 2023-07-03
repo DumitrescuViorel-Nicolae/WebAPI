@@ -13,5 +13,6 @@ namespace DataAccess.CustomContexts
         public virtual DbSet<AirQualityModel> AirQualityIndex { get;set; }
 
         public virtual DbSet<ServoStateModel> ServoState { get; set; }
+        public virtual DbSet<ReportsModel> Reports { get; set; }
     }
 }

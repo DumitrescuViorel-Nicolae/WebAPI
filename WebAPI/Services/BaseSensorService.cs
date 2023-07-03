@@ -55,16 +55,9 @@ namespace WebAPI.Services
 
         public void SendPostRequest (string endpoint)
         {
-
-
             _baseUrl ??= GetBaseUrl();
-
             var url = _httpClient.UrlBuilder(_baseUrl, endpoint);
-
-
              _httpClient.SendPostRequest(url);
-
-            
         }
     }
 }

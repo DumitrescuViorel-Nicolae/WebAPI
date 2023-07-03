@@ -99,6 +99,8 @@ namespace WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IRecurringJobManager recurringJobManager, IServiceProvider serviceProvider)
         {
             app.UseCors("MyPolicy");
@@ -121,7 +123,8 @@ namespace WebAPI
             recurringJobManager.AddOrUpdate<HangfireActivator>(nameof(HangfireActivator),
                 job => serviceProvider.GetRequiredService<IHangfireActivator>()
                     .Run(JobCancellationToken.Null)
-                ,Cron.Minutely(), TimeZoneInfo.Utc);
+                , Cron.Minutely, TimeZoneInfo.Utc);
+
             #endregion 
 
             app.UseHttpsRedirection();

@@ -5,5 +5,6 @@ namespace WebAPI.Services.Interfaces
     public interface IServoService
     {
         void ControlServo(int position);
+        string AutomaticTrigger();
     }
 }

@@ -15,5 +15,12 @@ namespace WebAPI.Services
         {
             SendPostRequest($"servo?position={position}");
         }
+
+        public string AutomaticTrigger()
+        {
+            SendPostRequest($"servo?position=90");
+
+            return "Servo triggered!";
+        }
     }
 }

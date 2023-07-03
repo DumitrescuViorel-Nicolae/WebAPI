@@ -11,11 +11,13 @@ namespace WebAPI.Hangfire
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ISensorService _sensorService;
+        private readonly ICheckerService _checkerService;
 
-        public HangfireActivator(IServiceProvider serviceProvider, ISensorService sensorService)
+        public HangfireActivator(IServiceProvider serviceProvider, ISensorService sensorService, ICheckerService checkerService)
         {
             this._serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _sensorService = sensorService ?? throw new ArgumentNullException();
+            _checkerService = checkerService ?? throw new ArgumentNullException(nameof(checkerService));
         }
 
         public async Task Run(IJobCancellationToken token)
@@ -26,7 +28,15 @@ namespace WebAPI.Hangfire
 
         public Task RunAtTimeOf(DateTime now)
         {
-           return _sensorService.ReadEnvironment();
+            var isOverheat = _checkerService.IsOverheat().Result;
+
+            if (isOverheat)
+            {
+                _checkerService.EmergencyTrigger();
+            }
+
+            return _sensorService.ReadEnvironment();
+
         }
     }
 }

@@ -4,10 +4,9 @@ namespace WebAPI.Services.Interfaces
 {
     public interface ICheckerService
     {
-        Task HandleAutomaticServoTrigger(bool state);
         Task<bool> IsOverheat();
-
-        Task SendEmailAsync();
-
+        Task ChangeServoState(bool state);
+        string EmergencyTrigger();
+        Task<string> Simulate();
     }
 }

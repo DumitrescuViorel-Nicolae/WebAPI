@@ -76,11 +76,17 @@ namespace WebAPI.Services
                 environmentReading.AddRange(principalReadings);
                 environmentReading.AddRange(secondaryReadings);
 
-                environmentReading.ForEach(reading => reading.Value = reading.Value.Remove(reading.Value.IndexOf('.') + 2));
+                environmentReading.ForEach(reading =>
+                {
+                    if (reading.Value.Contains('.'))
+                    {
+                        reading.Value = reading.Value.Remove(reading.Value.IndexOf('.') + 2);
+                    }
+                });
             }
             catch (Exception e)
             {
-              throw new Exception(e.Message);
+                throw new Exception(e.Message);
             }
 
             foreach (var reading in environmentReading)
