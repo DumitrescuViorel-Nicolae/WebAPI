@@ -26,9 +26,8 @@ namespace WebAPI.Services
             var listOfMeasures = new List<KeyValuePair<string, string>>()
             {
                new KeyValuePair<string, string>("temperature", "°C"),
-               new KeyValuePair<string, string>("pressure", "mbar"),
+               new KeyValuePair<string, string>("pressure", "atm"),
                new KeyValuePair<string, string>("humidity", "%"),
-               new KeyValuePair<string, string>("gas", "kOhms"),
                new KeyValuePair<string, string>("altitude", "m"),
                new KeyValuePair<string, string>("iaq", "points")
             };
@@ -46,7 +45,17 @@ namespace WebAPI.Services
                         Value = new Random().Next(40, 50).ToString(),
                     });
                 }
-                else
+                
+                if (measure.Key == "pressure")
+                {
+                    listOfValues.Add(new SensorModel
+                    {
+                        Type = measure.Key,
+                        Unit = measure.Value,
+                        Value = "0.9"
+                    });
+                }
+                else if (measure.Key != "iaq" && measure.Key != "presurre")
                 {
                     listOfValues.Add(new SensorModel
                     {
@@ -84,9 +93,9 @@ namespace WebAPI.Services
                     }
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                environmentReading = GenerateRandomValues();
             }
 
             foreach (var reading in environmentReading)
