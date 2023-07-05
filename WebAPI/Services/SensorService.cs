@@ -46,7 +46,7 @@ namespace WebAPI.Services
                     });
                 }
                 
-                if (measure.Key == "pressure")
+                else if (measure.Key == "pressure")
                 {
                     listOfValues.Add(new SensorModel
                     {
@@ -55,7 +55,16 @@ namespace WebAPI.Services
                         Value = "0.9"
                     });
                 }
-                else if (measure.Key != "iaq" && measure.Key != "presurre")
+                else if (measure.Key == "humidity")
+                {
+                    listOfValues.Add(new SensorModel
+                    {
+                        Type = measure.Key,
+                        Unit = measure.Value,
+                        Value = new Random().Next(40, 50).ToString(),
+                    });
+                }
+                else if (measure.Key != "iaq" && measure.Key != "presurre" && measure.Key != "humidity")
                 {
                     listOfValues.Add(new SensorModel
                     {
