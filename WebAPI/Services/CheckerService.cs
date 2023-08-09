@@ -51,8 +51,8 @@ namespace WebAPI.Services
                           .Average();
 
                 // takes the entries existing in DB without the last 5 of them meaning that it skips the last 5minutes
-                var temperatureDiff = value - mean;
-                if(temperatureDiff >= 7.5)
+                var temperatureDiff = (int)(value - mean);
+                if(temperatureDiff >= 7)
                 {   
                     body += $"The value {value} of the temperature was {temperatureDiff} degrees higher that the mean({mean}). ";
                 }
@@ -83,7 +83,7 @@ namespace WebAPI.Services
             {
                 var result = _savedReadingsRepository.Read();
                 var temperature = result.Where(item => item.Type == "temperature");
-                var value = temperature.OrderByDescending(item => item.Id)
+                var value = (int)temperature.OrderByDescending(item => item.Id)
                           .Skip(5)
                           .Select(item => float.TryParse(item.Value, out float value) ? value : 0)
                           .Average() + 7.5;
